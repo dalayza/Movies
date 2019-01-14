@@ -1,31 +1,39 @@
-<!--<h1>Movie's Details:</h1>
-<div><span>id: </span>{{movie.id}}</div>
-<div><span>name: </span>{{movie.name | uppercase}}</div>
-<div><span>Release year: </span>{{movie.releaseYear}}</div>
-
-<h2>Edit your's Information:</h2>
-<div style="margin: 10px; text-align: left;">
-    <label>Movie name (data-binding one-way):
-        <input [ngModel]="movie.name" placeholder="Enter movie's name">
-    </label>
-</div>
-<div style="margin: 10px; text-align: left;">
-    <label>Release year:
-        <input [(ngModel)]="movie.releaseYear" placeholder="Enter release year">
-    </label>
-</div>-->
-
-
 <h2>My favorite movies</h2>
+<div style="text-align: left">
+    <table style="width: 300px">
+        <tr>
+            <td>
+                New movie's name:
+            </td>
+            <td>
+                <input #movieName placeholder="name">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Release year:
+            </td>
+            <td>
+                <input #releaseYear placeholder="release year">
+            </td>
+        </tr>
+        <tr>
+            <button (click)="add(movieName.value, releaseYear.value); movieName.value=''; releaseYear.value=''">
+                add
+            </button>
+        </tr>
+    </table>
+</div>
 <div class="parent">
     <ol class="movies">
-        <li class="movieListItem"
-            *ngFor="let eachMovie of movies"
-            [class.selected]="eachMovie === selectedMovie"
-            (click)="onSelect(eachMovie)"
-            >
-            {{eachMovie.name}} - {{eachMovie.releaseYear}}
+        <li class="movieListItem" 
+            *ngFor="let eachMovie of movies">
+            <a routerLink="/detail/{{eachMovie.id}}" style="text-decoration: none;">
+                {{eachMovie.name}} - {{eachMovie.releaseYear}}
+            </a>
+            <button title="delete movie"
+            (click)='delete(eachMovie.id)'>x</button>            
         </li>
     </ol>
-    <app-movie-detail [movie]="selectedMovie"></app-movie-detail>
+    <!-- <app-movie-detail [movie]="selectedMovie"></app-movie-detail> -->
 </div>

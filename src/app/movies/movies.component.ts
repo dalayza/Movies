@@ -9,36 +9,53 @@ import { MovieService } from '../movie.service';
   styleUrls: ['./movies.component.css']
 })
 export class MoviesComponent implements OnInit {
-
-  movie: Movie = {
-    id: 1,
-    name: "Star Wars",
-    releaseYear: 1977
-  }
-
-  //movies = fakeMovies;
+  // movie: Movie = {
+  //   id: 1,
+  //   name: "Star Wars",
+  //   releaseYear: 1977
+  // }
+  // movies = fakeMovies;
   movies: Movie[];
-
-  constructor(private movieService: MovieService) {
+  constructor(private movieService: MovieService) { 
 
   }
   getMoviesFromServices(): void {
     //this.movies = this.movieService.getMovies();
-    this.movieService.getMovies().subscribe(updateMovies => this.movies = updateMovies
-        //console.log(`this.movies = ${JSON.stringify(this.movies)}`);
-    );
+    this.movieService.getMovies().subscribe(updatedMovies => this.movies = updatedMovies);
+  }
+  ngOnInit() {
+    this.getMoviesFromServices();
   }
 
-  ngOnInit() {
-    this.getMoviesFromServices(); 
+  // add new movie
+  add(name: string, releaseYear: string): void {
+    name = name.trim();
+    if (Number.isNaN(Number(releaseYear)) || !name || Number(releaseYear) === 0) {
+      alert('Name must not be black, Release year must be a number');
+      return;
+    }
+    const newMovie: Movie = new Movie();
+    newMovie.name = name;
+    newMovie.releaseYear = Number(releaseYear);
+    this.movieService.addMovie(newMovie)
+      .subscribe(insertedMovie => {
+        this.movies.push(insertedMovie);
+      });
+  }
+
+  // delete movie
+  delete(movieId: number): void {
+    this.movieService.deleteMovie(movieId).subscribe(_ => {
+      this.movies = this.movies.filter(eachMovie => eachMovie.id !== movieId);
+    });
   }
 
   //Action when select a Movie in List item
-  selectedMovie: Movie;
-  onSelect(movie: Movie): void {
-    this.selectedMovie = movie;
-    console.log(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
-    /*alert(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);*/
-  }
+  // selectedMovie: Movie;
+  // onSelect(movie: Movie): void {
+  //     this.selectedMovie = movie;
+  //     console.log(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
+  //     // alert(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
+  // }
 
 }

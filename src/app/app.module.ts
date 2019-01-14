@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { MoviesComponent } from './movies/movies.component';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +9,10 @@ import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { MovieService } from './movie.service';
 import { MessagesComponent } from './messages/messages.component';
 import { MessageService } from './message.service';
+import { AppRoutingModule } from './/app-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MovieSearchComponent } from './movie-search/movie-search.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +20,14 @@ import { MessageService } from './message.service';
     MoviesComponent,
     MovieDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    MovieSearchComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
-    FormsModule
+    HttpClientModule
   ],
   providers: [
     MovieService,
